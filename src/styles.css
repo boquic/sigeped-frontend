@@ -1,20 +1,19 @@
-/* Estilos globales */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 .app-container {
   min-height: 100vh;
+  display: flex;
 }
 
 .main-content {
   margin-left: 250px;
-  transition: all 0.3s ease;
+  transition: margin-left 0.3s ease;
+  flex-grow: 1;
 }
 
-/* Responsive: en pantallas pequeñas, sidebar se contrae */
+.sidebar-collapsed + .main-content {
+  margin-left: 80px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .sidebar {
     width: 80px;
@@ -22,10 +21,8 @@ html, body {
   .main-content {
     margin-left: 80px;
   }
-  .nav-link span {
-    display: none;
-  }
-  .new-order-btn span {
+  .sidebar-collapsed .link-text,
+  .sidebar-collapsed .sidebar-header h5 {
     display: none;
   }
 }

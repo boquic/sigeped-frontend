@@ -1,4 +1,7 @@
-<nav class="sidebar">
+<button class="toggle-btn" (click)="toggleSidebar()">
+  <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-right' : 'bi-chevron-left'"></i>
+</button>
+<nav class="sidebar" [ngClass]="{'sidebar-collapsed': isCollapsed}">
   <div class="sidebar-header">
     <h5 class="text-white mb-0">ESIAD PROYECTOS</h5>
   </div>
@@ -7,37 +10,39 @@
     <li class="nav-item">
       <a class="nav-link active" routerLink="/dashboard">
         <i class="bi bi-grid"></i>
-        <span class="ms-2">Dashboard</span>
+        <span class="link-text">Dashboard</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink="/pedidos">
         <i class="bi bi-file-earmark-text"></i>
-        <span class="ms-2">Pedidos</span>
+        <span class="link-text">Pedidos</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink="/historial">
         <i class="bi bi-clock-history"></i>
-        <span class="ms-2">Historial</span>
+        <span class="link-text">Historial</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink="/notificaciones">
         <i class="bi bi-bell"></i>
-        <span class="ms-2">Notificaciones</span>
+        <span class="link-text">Notificaciones</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink="/clientes">
         <i class="bi bi-people"></i>
-        <span class="ms-2">Clientes</span>
+        <span class="link-text">Clientes</span>
       </a>
     </li>
   </ul>
 
-  <button class="btn btn-block btn-outline-light mt-auto new-order-btn">
-    <i class="bi bi-plus-circle"></i>
-    <span class="ms-1">New Order</span>
-  </button>
+  <div class="sidebar-footer mt-auto">
+    <button class="btn btn-block new-order-btn" (click)="onNewOrder()">
+      <i class="bi bi-plus-circle"></i>
+      <span class="link-text">New Order</span>
+    </button>
+  </div>
 </nav>
