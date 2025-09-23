@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos globales */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  min-height: 100vh;
+}
+
+.main-content {
+  margin-left: 250px;
+  transition: all 0.3s ease;
+}
+
+/* Responsive: en pantallas pequeñas, sidebar se contrae */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+  .main-content {
+    margin-left: 80px;
+  }
+  .nav-link span {
+    display: none;
+  }
+  .new-order-btn span {
+    display: none;
+  }
+}
