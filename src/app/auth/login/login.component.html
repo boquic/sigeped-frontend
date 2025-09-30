@@ -1,0 +1,28 @@
+<!-- El contenedor del formulario es ahora el único elemento principal -->
+<div class="login-container">
+  <div class="logo-container">
+    <img src="assets/Esiadlogo.png" alt="Logo ESIAD ARQ">
+  </div>
+
+  <h2>Acceder</h2>
+
+  <form (submit)="goToDashboard($event)">
+    <div class="input-group">
+      <i class="fas fa-user icon"></i>
+      <input type="text" placeholder="Usuario" readonly>
+    </div>
+
+    <div class="input-group">
+      <i class="fas fa-lock icon"></i>
+      <input type="password" placeholder="Contraseña" readonly>
+    </div>
+
+    <div class="links">
+      <a href="#">¿Olvidó su contraseña?</a>
+      <a href="#">Iniciar sesión con otra cuenta</a>
+    </div>
+    
+    <button type="submit" class="submit-btn">SIGUIENTE</button>
+  </form>
+</div>
+

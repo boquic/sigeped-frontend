@@ -1,21 +1,24 @@
-import { Component } from '@angular/core';
-import { NgClass } from '@angular/common'; // ← ¡IMPORTA NgClass!
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Component, Output, EventEmitter } from '@angular/core'; // Añade Output y EventEmitter
+
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [NgClass], // ← ¡AÑÁDELO AQUÍ!
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
+  @Output() toggleEvent = new EventEmitter<boolean>(); // <-- Añade esta línea
   isCollapsed = false;
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
-  }
-
-  onNewOrder() {
-    alert('¡Función de Nuevo Pedido aún no implementada!');
+    this.toggleEvent.emit(this.isCollapsed); // <-- Añade esta línea
   }
 }

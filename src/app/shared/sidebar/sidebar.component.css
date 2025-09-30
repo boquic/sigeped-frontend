@@ -1,70 +1,113 @@
+/* Barra lateral principal */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: 250px;
-  background-color: #006699;
-  color: white;
-  padding: 1rem 0;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  width: 240px;
+  background-color: #28747B;
   z-index: 1000;
-  transition: width 0.3s ease;
+  transition: width 0.35s ease;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .sidebar-collapsed {
-  width: 80px;
+  width: 85px; /* Ancho ajustado por el usuario */
 }
 
+/* --- SECCIÓN DEL LOGO CON ANIMACIÓN --- */
 .sidebar-header {
-  padding: 1rem 1.5rem;
+  position: relative;
+  flex: 0 0 auto;
+  padding: 2.5rem 1rem;
   text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  transition: padding 0.35s ease, height 0.35s ease;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.sidebar-header h5 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-  transition: opacity 0.3s ease;
+/* Estilo base para AMBOS logos */
+.sidebar-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease-in-out, width 0.35s ease;
 }
 
-.sidebar-collapsed .sidebar-header h5 {
+/* Estilo para el logo grande */
+.sidebar-logo-full {
+  width: 180px;
+  opacity: 1;
+}
+
+/* Estilo para el logo pequeño */
+.sidebar-logo-collapsed {
+  width: 60px;
   opacity: 0;
+}
+
+.sidebar-collapsed .sidebar-header {
+  padding: 1.5rem 0;
+  border-bottom: none;
+  height: 110px;
+}
+
+.sidebar-collapsed .sidebar-logo-full {
+  opacity: 0;
+}
+
+.sidebar-collapsed .sidebar-logo-collapsed {
+  opacity: 1;
+}
+
+/* --- SECCIÓN DEL MENÚ --- */
+.nav {
+  flex-grow: 1;
+  padding-top: 1rem;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  color: white;
+  padding: 0.8rem 1.5rem;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: all 0.2s ease;
-  margin: 0.5rem 1rem;
-  background-color: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  margin: 0.5rem 1.5rem;
+  background-color: #e8e8e8;
+  color: #333;
+}
+
+.sidebar-collapsed .nav-link {
+  justify-content: center;
+  padding: 0.8rem;
+  margin: 0.5rem auto;
+  width: 60px;
+  height: 60px;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  background-color: rgba(255,255,255,0.2);
-  border-color: rgba(255,255,255,0.4);
-  transform: scale(1.02);
+  background-color: #96c8cb;
+  color: #1a5155;
+  font-weight: 500;
 }
 
 .nav-link i {
-  font-size: 1.1rem;
-  min-width: 20px;
-  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .link-text {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   white-space: nowrap;
-  transition: opacity 0.3s ease, width 0.3s ease;
+  transition: opacity 0.3s ease, margin-left 0.3s ease;
 }
 
 .sidebar-collapsed .link-text {
@@ -74,54 +117,55 @@
   margin-left: 0;
 }
 
-.sidebar-footer {
-  padding: 1rem;
-}
-
-.new-order-btn {
-  width: 100%;
-  background-color: #00b3e6;
-  color: white;
-  border: none;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.new-order-btn:hover {
-  background-color: #0099cc;
-  transform: scale(1.02);
-}
-
-.new-order-btn i {
-  margin-right: 0.5rem;
-}
-
-.sidebar-collapsed .new-order-btn {
-  justify-content: center;
-}
-
-.sidebar-collapsed .new-order-btn span {
-  display: none;
-}
+/* --- BOTÓN DE TOGGLE (POSICIÓN CORREGIDA) --- */
 .toggle-btn {
   position: absolute;
-  top: 1rem;
-  right: -15px;
-  background-color: #006699;
-  color: white;
-  border: 2px solid white;
+  bottom: 25px;
+  right: 15px;   
+  left: auto; /* Definimos 'left' para la animación */
+  
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #28747B;
+  border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
+  
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1001;
+  
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  /* Se añaden left y right a la transición */
+  transition: transform 0.3s ease, background-color 0.3s ease, left 0.35s ease, right 0.35s ease;
 }
+
+.toggle-btn:hover {
+  transform: scale(1.1);
+  background-color: #ffffff;
+}
+
+/* Animación para la flecha del botón */
+.toggle-btn i {
+  transition: transform 0.35s ease-in-out;
+}
+
+/* --- LÓGICA DE POSICIÓN DEL BOTÓN COLAPSADO --- */
+.sidebar-collapsed .toggle-btn {
+  right: auto; /* Desactivamos el anclaje a la derecha */
+  left: 50%; /* Lo posicionamos a la mitad del contenedor */
+  transform: translateX(-50%); /* Lo centramos perfectamente */
+}
+
+.sidebar-collapsed .toggle-btn:hover {
+  /* Mantenemos el centrado al hacer hover */
+  transform: translateX(-50%) scale(1.1); 
+}
+
+/* Rota la flecha cuando el sidebar está colapsado */
+.sidebar-collapsed .toggle-btn i {
+  transform: rotate(180deg);
+}
+

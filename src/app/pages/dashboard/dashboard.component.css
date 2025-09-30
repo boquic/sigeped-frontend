@@ -1,0 +1,14 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Ocupa gran parte de la altura de la pantalla */
+  text-align: center;
+  color: #333;
+}
+
+.dashboard-container h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+}

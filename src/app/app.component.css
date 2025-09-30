@@ -1,0 +1,26 @@
+/* ... tus estilos existentes ... */
+
+.main-content {
+  margin-left: 250px; /* Ancho del sidebar expandido */
+  transition: margin-left 0.3s ease;
+  position: relative;
+}
+
+/* NUEVA CLASE: Se activa cuando el sidebar se colapsa */
+.main-content.content-expanded {
+  margin-left: 80px; /* Ancho del sidebar colapsado */
+}
+
+.main-content.full-screen {
+  margin-left: 0;
+}
+
+.header {
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.content-area {
+  padding: 2rem;
+}

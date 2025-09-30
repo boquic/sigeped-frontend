@@ -1,0 +1,117 @@
+/* --- Estilos para pantallas grandes (Desktop) --- */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  /* --- CAMBIO PRINCIPAL: Imagen de fondo --- */
+  background-image: url('https://www.iamanufacturing.com/wp-content/uploads/2024/06/arquitectura-museo-maqueta-edificio-ia-manufacturing.jpg');
+  background-size: cover; /* Cubre toda la pantalla */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que se repita */
+}
+
+/* Contenedor del formulario con efecto de "vidrio esmerilado" para legibilidad */
+.login-container {
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco semi-transparente */
+  backdrop-filter: blur(8px); /* El efecto de desenfoque */
+  -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con Safari */
+  
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+/* ... (El resto de tus estilos, con pequeños ajustes de contraste) ... */
+.logo-container img {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-weight: 300;
+  color: #333; /* Texto un poco más oscuro para mejor contraste */
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group .icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.links a {
+  color: #555;
+  font-size: 0.8rem;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #28747B; /* Usando el color principal de tu marca */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #1f5a5f;
+}
+
+/* --- Estilos para pantallas pequeñas (Móviles) --- */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 25px; /* Menos padding en pantallas pequeñas */
+  }
+
+  .logo-container img {
+    width: 120px;
+  }
+}
+

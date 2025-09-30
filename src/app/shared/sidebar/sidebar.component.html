@@ -1,48 +1,53 @@
+<!-- Botón para ocultar/mostrar el menú -->
 <button class="toggle-btn" (click)="toggleSidebar()">
   <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-right' : 'bi-chevron-left'"></i>
 </button>
+
+<!-- Barra lateral -->
 <nav class="sidebar" [ngClass]="{'sidebar-collapsed': isCollapsed}">
+
+  <!-- Botón para ocultar/mostrar el menú (AHORA ESTÁ DENTRO) -->
+  <button class="toggle-btn" (click)="toggleSidebar()">
+    <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-right' : 'bi-chevron-left'"></i>
+  </button>
+
+  <!-- Sección superior solo para el logo -->
   <div class="sidebar-header">
-    <h5 class="text-white mb-0">ESIAD PROYECTOS</h5>
+    <img src="assets/Logoesiad.png" alt="Logo ESIAD ARQ Completo" class="sidebar-logo sidebar-logo-full">
+    <img src="assets/Logosolo.png" alt="Logo ESIAD ARQ Icono" class="sidebar-logo sidebar-logo-collapsed">
   </div>
 
-  <ul class="nav flex-column mt-4">
+  <!-- Sección inferior para las opciones del menú -->
+  <ul class="nav flex-column">
     <li class="nav-item">
-      <a class="nav-link active" routerLink="/dashboard">
-        <i class="bi bi-grid"></i>
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+        <i class="bi bi-grid-fill"></i>
         <span class="link-text">Dashboard</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/pedidos">
-        <i class="bi bi-file-earmark-text"></i>
+      <a class="nav-link" routerLink="/pedidos" routerLinkActive="active">
+        <i class="bi bi-archive-fill"></i>
         <span class="link-text">Pedidos</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/historial">
+      <a class="nav-link" routerLink="/historial" routerLinkActive="active">
         <i class="bi bi-clock-history"></i>
         <span class="link-text">Historial</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/notificaciones">
-        <i class="bi bi-bell"></i>
+      <a class="nav-link" routerLink="/notificaciones" routerLinkActive="active">
+        <i class="bi bi-bell-fill"></i>
         <span class="link-text">Notificaciones</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/clientes">
-        <i class="bi bi-people"></i>
+      <a class="nav-link" routerLink="/clientes" routerLinkActive="active">
+        <i class="bi bi-people-fill"></i>
         <span class="link-text">Clientes</span>
       </a>
     </li>
   </ul>
-
-  <div class="sidebar-footer mt-auto">
-    <button class="btn btn-block new-order-btn" (click)="onNewOrder()">
-      <i class="bi bi-plus-circle"></i>
-      <span class="link-text">New Order</span>
-    </button>
-  </div>
 </nav>

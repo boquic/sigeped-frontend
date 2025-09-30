@@ -1,12 +1,17 @@
-<div class="app-container d-flex">
-  <app-sidebar></app-sidebar> <!-- ← ¡Esta es la etiqueta correcta! -->
+<!-- El sidebar solo se muestra si NO estamos en la página de login -->
+<app-sidebar *ngIf="showSidebar" (toggleEvent)="onSidebarToggle($event)"></app-sidebar>
 
-  <div class="main-content flex-grow-1">
-    <header class="bg-white shadow-sm p-3">
-      <h5 class="mb-0">Panel General</h5>
-    </header>
-    <div class="container-fluid p-4">
-      <router-outlet></router-outlet>
-    </div>
+<!-- Contenedor principal que se ajusta dinámicamente -->
+<div class="main-content" [class.full-screen]="!showSidebar" [class.content-expanded]="isSidebarCollapsed">
+
+  <!-- El header solo se muestra si NO estamos en la página de login -->
+  <header class="header" *ngIf="showSidebar">
+    <h1>Panel General</h1>
+  </header>
+
+  <!-- Aquí se renderizan tus páginas (Dashboard, Pedidos, etc.) -->
+  <div class="content-area">
+    <router-outlet></router-outlet>
   </div>
+
 </div>
