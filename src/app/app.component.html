@@ -1,15 +1,10 @@
 <!-- El sidebar solo se muestra si NO estamos en la página de login -->
 <app-sidebar *ngIf="showSidebar" (toggleEvent)="onSidebarToggle($event)"></app-sidebar>
 
-<!-- Contenedor principal que se ajusta dinámicamente -->
 <div class="main-content" [class.full-screen]="!showSidebar" [class.content-expanded]="isSidebarCollapsed">
 
-  <!-- El header solo se muestra si NO estamos en la página de login -->
-  <header class="header" *ngIf="showSidebar">
-    <h1>Panel General</h1>
-  </header>
+  <app-header *ngIf="showSidebar"></app-header>
 
-  <!-- Aquí se renderizan tus páginas (Dashboard, Pedidos, etc.) -->
   <div class="content-area">
     <router-outlet></router-outlet>
   </div>

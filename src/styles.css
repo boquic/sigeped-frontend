@@ -1,28 +1,23 @@
-.app-container {
-  min-height: 100vh;
-  display: flex;
+/* Reset global para eliminar márgenes y el borde blanco.
+  ESTA ES LA SOLUCIÓN DEFINITIVA.
+*/
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Oculta cualquier scroll a nivel de toda la página */
+  
+  /* --- LÍNEA AÑADIDA --- */
+  background-color: #f8f9fa; /* Color de fondo del dashboard */
+  font-family: sans-serif;
 }
 
-.main-content {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-  flex-grow: 1;
-}
-
-.sidebar-collapsed + .main-content {
-  margin-left: 80px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 80px;
-  }
-  .main-content {
-    margin-left: 80px;
-  }
-  .sidebar-collapsed .link-text,
-  .sidebar-collapsed .sidebar-header h5 {
-    display: none;
-  }
+/* Forzamos a que el componente raíz de Angular (donde vive toda tu app) 
+  también ocupe todo el espacio disponible.
+*/
+app-root {
+  display: block;
+  height: 100%;
+  width: 100%;
 }
