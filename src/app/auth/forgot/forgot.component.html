@@ -1,0 +1,9 @@
+<div class="auth-container">
+  <h2>Recuperar contraseña</h2>
+  <form (ngSubmit)="submit()" #f="ngForm">
+    <input name="email" [(ngModel)]="email" placeholder="Email" type="email" required />
+    <button type="submit" [disabled]="loading || !f.form.valid">Enviar instrucciones</button>
+  </form>
+  <p *ngIf="message" class="success">{{ message }}</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+</div>

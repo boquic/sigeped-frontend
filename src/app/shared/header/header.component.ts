@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Ya está aquí, solo asegúrate
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,14 +13,16 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   isDropdownOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   logout(): void {
-    console.log('Cerrando sesión...');
-    this.router.navigate(['/login']);
+    this.auth.logout().subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login'])
+    });
   }
 }

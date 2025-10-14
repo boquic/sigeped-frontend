@@ -1,0 +1,12 @@
+<div class="auth-container">
+  <h2>Registro</h2>
+  <form (ngSubmit)="submit()" #f="ngForm">
+    <input name="username" [(ngModel)]="model.username" placeholder="Usuario" required />
+    <input name="email" [(ngModel)]="model.email" placeholder="Email" type="email" required />
+    <input name="password" [(ngModel)]="model.password" placeholder="Contraseña" type="password" required />
+    <input name="telefono" [(ngModel)]="model.telefono" placeholder="Teléfono" type="tel" required />
+    <button type="submit" [disabled]="loading || !f.form.valid">Crear cuenta</button>
+  </form>
+  <p *ngIf="error" class="error">{{ error }}</p>
+  <p *ngIf="success" class="success">{{ success }}</p>
+</div>

@@ -1,0 +1,9 @@
+<div class="auth-container">
+  <h2>Restablecer contraseña</h2>
+  <form (ngSubmit)="submit()" #f="ngForm">
+    <input name="password" [(ngModel)]="password" placeholder="Nueva contraseña" type="password" required />
+    <button type="submit" [disabled]="loading || !f.form.valid">Restablecer</button>
+  </form>
+  <p *ngIf="message" class="success">{{ message }}</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+</div>

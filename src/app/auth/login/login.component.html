@@ -6,23 +6,23 @@
 
   <h2>Acceder</h2>
 
-  <form (submit)="goToDashboard($event)">
+  <form (ngSubmit)="submit()" #f="ngForm">
     <div class="input-group">
       <i class="fas fa-user icon"></i>
-      <input type="text" placeholder="Usuario" readonly>
+      <input name="email" [(ngModel)]="model.email" type="email" placeholder="Email" required>
     </div>
 
     <div class="input-group">
       <i class="fas fa-lock icon"></i>
-      <input type="password" placeholder="Contraseña" readonly>
+      <input name="password" [(ngModel)]="model.password" type="password" placeholder="Contraseña" required>
     </div>
 
     <div class="links">
-      <a href="#">¿Olvidó su contraseña?</a>
-      <a href="#">Iniciar sesión con otra cuenta</a>
+      <a routerLink="/forgot">¿Olvidó su contraseña?</a>
+      <a routerLink="/register">Crear cuenta</a>
     </div>
     
-    <button type="submit" class="submit-btn">SIGUIENTE</button>
+    <button type="submit" class="submit-btn" [disabled]="loading || !f.form.valid">Iniciar sesión</button>
+    <p *ngIf="error" class="error">{{ error }}</p>
   </form>
 </div>
-

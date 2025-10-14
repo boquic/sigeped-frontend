@@ -1,0 +1,6 @@
+/* Styles for register component (optional). Intentionally left minimal. */
+.auth-container { max-width: 420px; margin: 40px auto; display: grid; gap: 12px; }
+.auth-container input { padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+.auth-container button { padding: 10px; border: none; background: #28747B; color: #fff; border-radius: 6px; cursor: pointer; }
+.auth-container .error { color: #b00020; }
+.auth-container .success { color: #0a8f08; }

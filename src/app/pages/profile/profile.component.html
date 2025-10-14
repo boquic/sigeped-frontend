@@ -1,0 +1,13 @@
+<div class="profile">
+  <h2>Perfil</h2>
+  <pre *ngIf="(user$ | async) as user">{{ user | json }}</pre>
+
+  <div class="actions">
+    <button (click)="pingUser()">Probar /users/ping</button>
+    <button (click)="pingAdmin()">Probar /admin/ping</button>
+  </div>
+
+  <div *ngIf="userPing">User ping: {{ userPing }}</div>
+  <div *ngIf="adminPing">Admin ping: {{ adminPing }}</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>
