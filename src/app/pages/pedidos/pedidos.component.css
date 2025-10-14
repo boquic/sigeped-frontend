@@ -1,0 +1,113 @@
+/* --- Estilos Generales y Pestañas --- */
+:host {
+  --primary-color: #28747B;
+  --secondary-color: #96c8cb;
+  --light-gray: #f8f9fa;
+  --text-color: #343a40;
+  --text-muted: #6c757d;
+}
+
+.page-container {
+  padding: 1.5rem 2rem;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+  color: var(--text-muted);
+  border: none;
+  padding-bottom: 0.75rem;
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-tabs .nav-link.disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* --- Vista Detalle del Pedido --- */
+.detalle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.header-title h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-color);
+}
+.header-title span { color: var(--text-muted); }
+.header-actions { display: flex; gap: 0.75rem; }
+.btn { display: flex; align-items: center; gap: 0.5rem; border-radius: 8px; font-weight: 500; }
+.btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+.btn-primary:hover { background-color: #1f5a5f; border-color: #1f5a5f; }
+
+/* Barra de Progreso */
+.progress-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+.progress-info { display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-weight: 600; color: var(--text-color); }
+.progress { height: 1rem; background-color: #e9ecef; border-radius: 8px; }
+.progress-bar { background-color: var(--primary-color); }
+
+/* Layout de 2 columnas */
+.detalle-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 0; /* Eliminamos el margen inferior para alinearlo con el grid */
+}
+.card h4 { margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600; }
+.card-header { display: flex; justify-content: space-between; align-items: center; padding: 0 0 1rem 0; background: none; border-bottom: 1px solid #e9ecef; margin-bottom: 1rem; }
+.btn-success { background-color: #198754; }
+
+/* Detalles del Pedido */
+.detail-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem 1.5rem;
+  align-items: center;
+}
+.detail-grid span { color: var(--text-muted); font-size: 0.9rem; }
+.detail-grid strong { font-size: 0.9rem; font-weight: 600; }
+
+/* Tabla de Materiales */
+.materials-table { width: 100%; border-collapse: collapse; }
+.materials-table th, .materials-table td { padding: 0.8rem 0; text-align: left; border-bottom: 1px solid #f1f3f5; }
+.materials-table thead { border-bottom: 2px solid #dee2e6; }
+.materials-table th { font-weight: 600; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
+.materials-table td { font-size: 0.9rem; }
+.materials-table tbody tr:last-child td { border-bottom: none; }
+.materials-table td strong { font-weight: 600; }
+
+/* --- Columna Derecha --- */
+.client-info { text-align: center; }
+.client-avatar { font-size: 4rem; color: var(--secondary-color); }
+.client-info strong { display: block; margin-top: 0.5rem; font-size: 1.1rem; }
+.client-info span { font-size: 0.85rem; color: var(--text-muted); }
+.client-contact { text-align: left; margin-top: 1.5rem; }
+.client-contact p { display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0; font-size: 0.9rem; }
+.client-contact i { color: var(--primary-color); }
+

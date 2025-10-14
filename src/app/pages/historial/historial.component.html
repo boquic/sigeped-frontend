@@ -1,1 +1,83 @@
-<p>historial works!</p>
+<div class="historial-container card">
+  <!-- Encabezado con título y acciones -->
+  <div class="card-header">
+    <h3>Historial de Pedidos</h3>
+    <div class="header-actions">
+      <!-- Barra de búsqueda ahora funcional con ngModel -->
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Buscar por cliente o ID..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      
+      <!-- Menú desplegable para filtrar por estado -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-funnel"></i>
+          {{ statusFilter }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" (click)="onFilterChange('Todos')">Todos</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" (click)="onFilterChange('Completado')">Completado</a></li>
+          <li><a class="dropdown-item" (click)="onFilterChange('En Progreso')">En Progreso</a></li>
+          <li><a class="dropdown-item" (click)="onFilterChange('Pendiente')">Pendiente</a></li>
+          <li><a class="dropdown-item" (click)="onFilterChange('Cancelado')">Cancelado</a></li>
+        </ul>
+      </div>
+
+      <button class="btn btn-primary">
+        <i class="bi bi-download"></i>
+        Exportar
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla de pedidos -->
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Pedido ID</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th class="text-end">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Mostramos la lista paginada y filtrada -->
+        <tr *ngFor="let pedido of historialDePedidos" (click)="seleccionarPedido(pedido)">
+          <td><strong>{{ pedido.id }}</strong></td>
+          <td>{{ pedido.client }}</td>
+          <td>{{ pedido.date }}</td>
+          <td>
+            <span class="badge" [ngClass]="pedido.status.replace(' ', '-').toLowerCase()">
+              {{ pedido.status }}
+            </span>
+          </td>
+          <td class="text-end">${{ pedido.total.toLocaleString('en-US') }}</td>
+        </tr>
+        <!-- Mensaje si no hay resultados -->
+        <tr *ngIf="historialDePedidos.length === 0">
+          <td colspan="5" class="text-center text-muted py-4">No se encontraron pedidos que coincidan con los filtros.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="card-footer">
+    <nav class="pagination-nav">
+      <button class="btn btn-outline-secondary btn-sm" (click)="previousPage()" [disabled]="currentPage === 1">
+        Anterior
+      </button>
+      <div class="page-numbers">
+        <span>Página {{ currentPage }} de {{ totalPages > 0 ? totalPages : 1 }}</span>
+      </div>
+      <button class="btn btn-outline-secondary btn-sm" (click)="nextPage()" [disabled]="currentPage >= totalPages">
+        Siguiente
+      </button>
+    </nav>
+  </div>
+</div>
+

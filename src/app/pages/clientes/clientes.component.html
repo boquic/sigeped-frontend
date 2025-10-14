@@ -1,0 +1,131 @@
+<!-- VISTA DE LISTA DE CLIENTES (sin cambios) -->
+<div class="page-container" *ngIf="vistaActual === 'lista'">
+  <div class="page-header">
+    <h1>Clientes</h1>
+    <button class="btn btn-primary"><i class="bi bi-plus-circle"></i> Nuevo Cliente</button>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Buscar clientes por nombre o email..." [(ngModel)]="searchTerm" (ngModelChange)="filtrarClientes()">
+      </div>
+    </div>
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th style="width: 50%;">Nombre</th>
+          <th>Contacto</th>
+          <th class="text-center">Proyectos</th>
+          <th class="text-center">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientesFiltrados" (click)="verDetalle(cliente)">
+          <td>
+            <div class="user-cell">
+              <div class="avatar">{{ cliente.iniciales }}</div>
+              <div class="user-info">
+                <span class="user-name">{{ cliente.nombre }}</span>
+                <span class="user-email">{{ cliente.email }}</span>
+              </div>
+            </div>
+          </td>
+          <td>{{ cliente.telefono }}</td>
+          <td class="text-center">{{ cliente.proyectos }}</td>
+          <td class="text-center">
+            <span class="badge" [ngClass]="cliente.estado.toLowerCase()">{{ cliente.estado }}</span>
+          </td>
+        </tr>
+        <tr *ngIf="clientesFiltrados.length === 0">
+          <td colspan="5" class="text-center text-muted py-5">No se encontraron clientes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- VISTA DE DETALLE DEL CLIENTE (DISEÑO MEJORADO) -->
+<div class="page-container" *ngIf="vistaActual === 'detalle' && clienteSeleccionado">
+  <div class="page-header">
+    <button class="btn btn-outline-secondary" (click)="volverALista()"><i class="bi bi-arrow-left"></i> Volver a la lista</button>
+    <div class="header-actions">
+      <button class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i> Editar Cliente</button>
+      <button class="btn btn-primary"><i class="bi bi-envelope"></i> Enviar Mensaje</button>
+    </div>
+  </div>
+
+  <div class="detalle-cliente-grid">
+    <!-- Columna Izquierda: Perfil (sin cambios) -->
+    <div class="profile-card card">
+      <img [src]="clienteDetallado.avatarUrl" class="profile-avatar" alt="Avatar del cliente">
+      <h2>{{ clienteSeleccionado.nombre }}</h2>
+      <div class="contact-info">
+        <p><i class="bi bi-telephone-fill"></i> {{ clienteSeleccionado.telefono }}</p>
+        <p><i class="bi bi-envelope-fill"></i> {{ clienteSeleccionado.email }}</p>
+        <p><i class="bi bi-geo-alt-fill"></i> 123 Main Street, Anytown, USA</p>
+      </div>
+    </div>
+
+    <!-- Columna Central: Información y Pedidos (DISEÑO MEJORADO) -->
+    <div class="main-info">
+      <!-- Tarjetas de Resumen (KPIs) -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <i class="bi bi-receipt-cutoff stat-icon"></i>
+          <div class="stat-text">
+            <span class="stat-label">Total Gastado</span>
+            <span class="stat-value">${{ clienteDetallado.stats.totalGastado.toLocaleString() }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="bi bi-box-seam stat-icon"></i>
+          <div class="stat-text">
+            <span class="stat-label">Pedidos Activos</span>
+            <span class="stat-value">{{ clienteDetallado.stats.pedidosActivos }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="bi bi-calendar-check stat-icon"></i>
+          <div class="stat-text">
+            <span class="stat-label">Último Pedido</span>
+            <span class="stat-value">{{ clienteDetallado.stats.ultimoPedido }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- Historial de Pedidos -->
+      <div class="card">
+        <div class="card-header-flex">
+          <h4>Historial de Pedidos</h4>
+          <a href="#" class="ver-todo">Ver todo</a>
+        </div>
+        <ul class="pedidos-list">
+          <li *ngFor="let pedido of clienteDetallado.historialPedidos">
+            <span class="pedido-fecha">{{ pedido.fecha }}</span>
+            <span class="pedido-desc">{{ pedido.descripcion }}</span>
+            <span class="badge" [ngClass]="pedido.estado.toLowerCase()">{{ pedido.estado }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Actividad Reciente (DISEÑO MEJORADO) -->
+    <div class="activity-card card">
+      <h4>Actividad Reciente</h4>
+      <ul class="activity-timeline">
+        <li *ngFor="let actividad of clienteDetallado.actividadReciente; let i = index">
+          <div class="timeline-icon">
+            <i *ngIf="i === 0" class="bi bi-telephone-fill"></i>
+            <i *ngIf="i === 1" class="bi bi-plus-circle-fill"></i>
+            <i *ngIf="i === 2" class="bi bi-credit-card-fill"></i>
+          </div>
+          <div class="activity-info">
+            <p>{{ actividad.desc }}</p>
+            <small>{{ actividad.fecha }}</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+

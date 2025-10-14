@@ -1,0 +1,154 @@
+:host {
+  --primary-color: #28747B;
+  --success-color: #198754;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --text-color: #343a40;
+  --text-muted: #6c757d;
+  --border-color: #e9ecef;
+}
+
+.historial-container {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  overflow: hidden; /* Para que los bordes redondeados afecten a la tabla */
+}
+
+/* --- Encabezado --- */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+.search-box i { color: var(--text-muted); }
+.search-box input {
+  border: none;
+  background: none;
+  outline: none;
+  margin-left: 0.5rem;
+}
+.search-box input::placeholder { color: #adb5bd; }
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+.btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+
+/* --- Estilos para el Dropdown --- */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.dropdown-item {
+  cursor: pointer;
+}
+.dropdown-toggle::after {
+  margin-left: .5em; /* Espacio extra para la flecha */
+}
+
+/* --- Tabla --- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.table th, .table td {
+  padding: 1rem 1.5rem; /* Padding horizontal y vertical para dar espacio */
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table thead th {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom-width: 2px;
+}
+
+.table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table strong {
+  color: var(--primary-color);
+}
+
+.text-end {
+  text-align: right !important;
+}
+
+/* --- Insignias de Estado --- */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.7em;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+.completado { background-color: var(--success-color); }
+.en-progreso { background-color: var(--primary-color); }
+.pendiente { background-color: var(--warning-color); color: var(--text-color); }
+.cancelado { background-color: var(--danger-color); }
+
+/* --- Paginación --- */
+.card-footer {
+  padding: 1rem 1.5rem;
+  background-color: #fff;
+  border-top: 1px solid var(--border-color);
+}
+
+.pagination-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-numbers span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+

@@ -1,1 +1,104 @@
-<p>pedidos works!</p>
+<div class="page-container">
+  <!-- Pestañas de navegación -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'historial'" (click)="activeTab = 'historial'; selectedPedido = null">Historial de Pedidos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'detalle'" [class.disabled]="!selectedPedido">Detalle del Pedido</a>
+    </li>
+  </ul>
+
+  <!-- VISTA HISTORIAL -->
+  <div *ngIf="activeTab === 'historial'">
+    <app-historial (pedidoSelected)="onPedidoSelected($event)"></app-historial>
+  </div>
+
+  <!-- VISTA DETALLE DEL PEDIDO (Diseño mejorado) -->
+  <div *ngIf="activeTab === 'detalle' && selectedPedido" class="detalle-pedido-wrapper">
+    <!-- Fila superior: Título y Botones -->
+    <div class="detalle-header">
+      <div class="header-title">
+        <h1>PEDIDO {{ selectedPedido.id }}</h1>
+        <span>Cliente: {{ selectedPedido.client }}</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i> Editar Orden</button>
+        <button class="btn btn-primary"><i class="bi bi-printer"></i> Imprimir</button>
+      </div>
+    </div>
+
+    <!-- Barra de Progreso -->
+    <div class="progress-card">
+      <div class="progress-info">
+        <span>Progreso de la Orden</span>
+        <span>{{ pedidoDetallado.progreso }}%</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" [style.width]="pedidoDetallado.progreso + '%'"></div>
+      </div>
+    </div>
+    
+    <!-- Layout de 2 columnas -->
+    <div class="detalle-body">
+      <!-- Columna Izquierda -->
+      <div class="main-details">
+        <!-- Detalles del Pedido -->
+        <div class="card">
+          <h4>Detalles del Pedido</h4>
+          <div class="detail-grid">
+            <span>Nombre de Proyecto</span>
+            <strong>{{ pedidoDetallado.detalles.nombre }}</strong>
+            <span>Tipo de Proyecto</span>
+            <strong>{{ pedidoDetallado.detalles.tipo }}</strong>
+            <span>Tamaño del Proyecto</span>
+            <strong>{{ pedidoDetallado.detalles.tamano }}</strong>
+          </div>
+        </div>
+        <!-- Lista de Materiales -->
+        <div class="card">
+          <div class="card-header">
+            <h4>Lista de Materiales</h4>
+            <button class="btn btn-sm btn-success"><i class="bi bi-plus-circle"></i> Añadir Material</button>
+          </div>
+          <table class="materials-table">
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Cantidad</th>
+                <th>Precio Unit.</th>
+                <th>Precio Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let material of pedidoDetallado.materiales">
+                <td>{{ material.nombre }}</td>
+                <td>{{ material.cantidad }}</td>
+                <td>${{ material.precioUnit.toFixed(2) }}</td>
+                <td><strong>${{ material.total.toFixed(2) }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Columna Derecha -->
+      <div class="sidebar-details">
+        <!-- Info del Cliente -->
+        <div class="card">
+          <h4>Información del Cliente</h4>
+          <div class="client-info">
+            <i class="bi bi-person-circle client-avatar"></i>
+            <strong>{{ pedidoDetallado.clienteInfo.nombre }}</strong>
+            <span>{{ pedidoDetallado.clienteInfo.tipo }}</span>
+            <div class="client-contact">
+              <p><i class="bi bi-envelope-fill"></i> {{ pedidoDetallado.clienteInfo.email }}</p>
+              <p><i class="bi bi-telephone-fill"></i> {{ pedidoDetallado.clienteInfo.telefono }}</p>
+              <p><i class="bi bi-geo-alt-fill"></i> {{ pedidoDetallado.clienteInfo.direccion }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
