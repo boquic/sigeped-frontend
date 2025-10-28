@@ -17,7 +17,7 @@
 
 /* Contenedor del formulario con efecto de "vidrio esmerilado" para legibilidad */
 .login-container {
-  background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco semi-transparente */
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente (ligeramente más transparente) */
   backdrop-filter: blur(8px); /* El efecto de desenfoque */
   -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con Safari */
   
@@ -63,7 +63,7 @@ h2 {
   padding: 12px 15px 12px 45px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1rem;
   box-sizing: border-box;
 }
@@ -78,9 +78,9 @@ h2 {
 
 .links a {
   color: #555;
-  font-size: 0.8rem;
+  font-size: 0.95rem; /* Aumenta ligeramente el tamaño */
   text-decoration: none;
-  margin-top: 5px;
+  margin-top: 8px; /* Más separación entre enlaces */
 }
 
 .links a:hover {
