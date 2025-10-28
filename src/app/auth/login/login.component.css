@@ -17,7 +17,7 @@
 
 /* Contenedor del formulario con efecto de "vidrio esmerilado" para legibilidad */
 .login-container {
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente (ligeramente más transparente) */
+  background-color: rgba(255, 255, 255, 0.75); /* Un poco más de transparencia */
   backdrop-filter: blur(8px); /* El efecto de desenfoque */
   -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con Safari */
   
@@ -48,6 +48,10 @@ h2 {
 .input-group {
   position: relative;
   margin-bottom: 20px;
+  background-color: #f9f9f9; /* el contenedor ahora es el fondo del campo */
+  border: 1px solid #ccc;
+  border-radius: 10px; /* bien redondeado en ambos lados */
+  overflow: hidden; /* asegura el redondeo visible con el icono */
 }
 
 .input-group .icon {
@@ -60,12 +64,16 @@ h2 {
 
 .input-group input {
   width: 100%;
-  padding: 12px 15px 12px 45px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  border-radius: 12px;
+  padding: 12px 15px 12px 45px; /* mantiene espacio para el icono */
+  border: none; /* sin borde, lo maneja el contenedor */
+  background-color: transparent; /* usa el fondo del contenedor */
+  border-radius: 0; /* el redondeo lo da el contenedor */
   font-size: 1rem;
   box-sizing: border-box;
+}
+
+.input-group input:focus {
+  outline: none; /* limpia el outline por defecto */
 }
 
 .links {
@@ -85,6 +93,13 @@ h2 {
 
 .links a:hover {
   text-decoration: underline;
+}
+
+.error {
+  color: #d32f2f; /* rojo para errores */
+  margin-top: 13px; /* separado del botón */
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .submit-btn {
