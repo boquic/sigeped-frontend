@@ -41,8 +41,8 @@ export class DashboardComponent implements OnInit {
       next: (orders) => {
         this.isLoading = false;
         this.stats.total = orders.length;
-        this.stats.enProgreso = orders.filter((order) => order.status.toLowerCase().includes('progreso')).length;
-        this.stats.pendientes = orders.filter((order) => order.status.toLowerCase().includes('pendiente')).length;
+        this.stats.enProgreso = orders.filter((order) => order.status === 'En Progreso').length;
+        this.stats.pendientes = orders.filter((order) => order.status === 'Pendiente').length;
         this.pedidosRecientes = [...orders]
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
           .slice(0, 4);

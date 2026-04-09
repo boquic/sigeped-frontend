@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginRequest, LoginResponse } from '../models/auth.model';
 import { AUTH_TOKEN_KEY } from '../constants/storage.constants';

@@ -5,6 +5,11 @@ import { ApiUrlService } from './api-url.service';
 import { OrderSummary, RawOrder } from '../models/order.model';
 import { mapRawOrderToSummary } from '../../features/orders/orders.mapper';
 
+interface AdminOrdersResponse {
+  success?: boolean;
+  orders?: RawOrder[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,8 +20,8 @@ export class AdminService {
   ) {}
 
   getAdminOrders(): Observable<OrderSummary[]> {
-    return this.http.get<RawOrder[]>(this.apiUrl.build('/api/admin/orders')).pipe(
-      map((orders) => (Array.isArray(orders) ? orders.map(mapRawOrderToSummary) : []))
+    return this.http.get<AdminOrdersResponse>(this.apiUrl.build('/api/admin/orders')).pipe(
+      map((response) => (Array.isArray(response.orders) ? response.orders.map(mapRawOrderToSummary) : []))
     );
   }
 }

@@ -82,7 +82,7 @@ export class PedidosComponent {
     this.errorMessage = '';
 
     this.ordersService
-      .reviewOrder(this.selectedPedido.id, { decision: 'approved', comments: 'Revision aprobada desde SIGEPED frontend' })
+      .reviewOrder(this.selectedPedido.id, { reviewStatus: 'approved', comment: 'Revision aprobada desde SIGEPED frontend' })
       .subscribe({
         next: () => {
           this.isSubmittingAction = false;
@@ -109,7 +109,7 @@ export class PedidosComponent {
     this.errorMessage = '';
 
     this.ordersService
-      .updateOrder(this.selectedPedido.id, { status: 'Completado' })
+      .updateOrder(this.selectedPedido.id, { status: 'completado' })
       .subscribe({
         next: () => {
           this.isSubmittingAction = false;

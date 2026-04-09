@@ -16,12 +16,13 @@ export interface OrderSummary {
 
 export interface UpdateOrderPayload {
   status: string;
-  notes?: string;
+  comment?: string;
+  estimatedTime?: string;
 }
 
 export interface ReviewOrderPayload {
-  decision: 'approved' | 'rejected';
-  comments?: string;
+  reviewStatus: string;
+  comment?: string;
 }
 
 export type RawOrder = Record<string, unknown>;
