@@ -1,6 +1,12 @@
 <div class="dashboard-wrapper">
 
   <main class="main-content">
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    <div class="alert alert-info" *ngIf="isLoading">
+      Cargando pedidos...
+    </div>
 
     <section class="stats-grid">
       <div class="stat-card">

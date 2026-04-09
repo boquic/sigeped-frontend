@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <-- 1. Importa FormsModule
+import { OrdersService } from '../../core/services/orders.service';
+import { OrderSummary } from '../../core/models/order.model';
+import { normalizeApiError } from '../../core/utils/api-error.util';
 
 @Component({
   selector: 'app-historial',
@@ -10,35 +13,47 @@ import { FormsModule } from '@angular/forms'; // <-- 1. Importa FormsModule
   styleUrls: ['./historial.component.css']
 })
 export class HistorialComponent implements OnInit {
-  @Output() pedidoSelected = new EventEmitter<any>();
+  @Output() pedidoSelected = new EventEmitter<OrderSummary>();
 
-  // Lista completa de todos los pedidos
-  private allPedidos = [
-    { id: '#12345', client: 'Sarah Johnson', date: '2024-09-15', status: 'Completado', total: 74000 },
-    { id: '#12346', client: 'John Doe', date: '2024-09-14', status: 'En Progreso', total: 52500 },
-    { id: '#12347', client: 'Jane Smith', date: '2024-09-13', status: 'Pendiente', total: 110000 },
-    { id: '#12348', client: 'Peter Jones', date: '2024-09-12', status: 'Cancelado', total: 15000 },
-    { id: '#12349', client: 'Emily Carter', date: '2024-09-11', status: 'Completado', total: 89000 },
-    { id: '#12350', client: 'David Lane', date: '2024-09-10', status: 'Completado', total: 45000 },
-    { id: '#12351', client: 'Olivia Green', date: '2024-09-09', status: 'En Progreso', total: 23000 },
-    { id: '#12352', client: 'Ethan Clark', date: '2024-09-08', status: 'Completado', total: 67000 },
-    { id: '#12353', client: 'Sophia Lewis', date: '2024-09-07', status: 'Cancelado', total: 31000 },
-    { id: '#12354', client: 'Michael Brown', date: '2024-09-06', status: 'En Progreso', total: 92000 },
-  ];
+  private allPedidos: OrderSummary[] = [];
   
   // --- Propiedades para los Filtros ---
   searchTerm: string = '';
   statusFilter: string = 'Todos';
-  filteredPedidos: any[] = [];
+  filteredPedidos: OrderSummary[] = [];
 
   // Propiedades de paginación
-  historialDePedidos: any[] = [];
+  historialDePedidos: OrderSummary[] = [];
+  isLoading = false;
+  errorMessage = '';
   currentPage = 1;
   itemsPerPage = 7; // Aumentamos para mostrar más por página
   totalPages = 0;
 
+  constructor(private readonly ordersService: OrdersService) {}
+
   ngOnInit(): void {
-    this.applyFilters();
+    this.loadPendingOrders();
+  }
+
+  private loadPendingOrders(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.ordersService.getPendingOrders().subscribe({
+      next: (orders) => {
+        this.isLoading = false;
+        this.allPedidos = orders;
+        this.applyFilters();
+      },
+      error: (error: unknown) => {
+        this.isLoading = false;
+        const normalized = normalizeApiError(error);
+        this.errorMessage = normalized.message;
+        if (normalized.requestId) {
+          console.error(`[requestId:${normalized.requestId}] ${normalized.message}`);
+        }
+      }
+    });
   }
 
   // --- Lógica de Filtrado ---
@@ -98,7 +113,7 @@ export class HistorialComponent implements OnInit {
   }
 
   // --- Evento de Selección ---
-  seleccionarPedido(pedido: any): void {
+  seleccionarPedido(pedido: OrderSummary): void {
     this.pedidoSelected.emit(pedido);
   }
 }

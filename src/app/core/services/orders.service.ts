@@ -21,10 +21,10 @@ export class OrdersService {
   }
 
   reviewOrder(orderId: string, payload: ReviewOrderPayload): Observable<unknown> {
-    return this.http.post(this.apiUrl.build(`/api/orders/${orderId}/review`), payload);
+    return this.http.post(this.apiUrl.build(`/api/orders/${encodeURIComponent(orderId)}/review`), payload);
   }
 
   updateOrder(orderId: string, payload: UpdateOrderPayload): Observable<unknown> {
-    return this.http.post(this.apiUrl.build(`/api/orders/${orderId}/update`), payload);
+    return this.http.post(this.apiUrl.build(`/api/orders/${encodeURIComponent(orderId)}/update`), payload);
   }
 }

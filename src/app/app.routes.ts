@@ -4,13 +4,14 @@ import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { HistorialComponent } from './pages/historial/historial.component';
 import { LoginComponent } from './auth/login/login.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'pedidos', component: PedidosComponent },
-  { path: 'clientes', component: ClientesComponent },
-  { path: 'historial', component: HistorialComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  { path: 'pedidos', component: PedidosComponent, canActivate: [authGuard] },
+  { path: 'clientes', component: ClientesComponent, canActivate: [authGuard] },
+  { path: 'historial', component: HistorialComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/dashboard' }
 ];

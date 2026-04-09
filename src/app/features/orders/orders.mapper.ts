@@ -22,12 +22,12 @@ function toNumberValue(value: unknown, fallback = 0): number {
 }
 
 export function mapRawOrderToSummary(raw: RawOrder): OrderSummary {
-  const id = toStringValue(raw.id ?? raw.orderId, 'N/A');
-  const client = toStringValue(raw.client ?? raw.customerName ?? raw.customer, 'Cliente sin nombre');
-  const date = toStringValue(raw.date ?? raw.createdAt ?? raw.updatedAt, '');
-  const status = toStringValue(raw.status, 'Pendiente');
-  const total = toNumberValue(raw.total ?? raw.amount ?? raw.totalAmount, 0);
-  const progress = toNumberValue(raw.progress ?? raw.completion, 0);
+  const id = toStringValue(raw['id'] ?? raw['orderId'], 'N/A');
+  const client = toStringValue(raw['client'] ?? raw['customerName'] ?? raw['customer'], 'Cliente sin nombre');
+  const date = toStringValue(raw['date'] ?? raw['createdAt'] ?? raw['updatedAt'], '');
+  const status = toStringValue(raw['status'], 'Pendiente');
+  const total = toNumberValue(raw['total'] ?? raw['amount'] ?? raw['totalAmount'], 0);
+  const progress = toNumberValue(raw['progress'] ?? raw['completion'], 0);
 
   return {
     id,
@@ -35,13 +35,13 @@ export function mapRawOrderToSummary(raw: RawOrder): OrderSummary {
     date,
     status,
     total,
-    imageUrl: toStringValue(raw.imageUrl, DEFAULT_IMAGE),
+    imageUrl: toStringValue(raw['imageUrl'], DEFAULT_IMAGE),
     progress,
-    projectName: toStringValue(raw.projectName ?? raw.name, 'Proyecto sin nombre'),
-    projectType: toStringValue(raw.projectType ?? raw.type, 'No especificado'),
-    projectSize: toStringValue(raw.projectSize ?? raw.size, 'No especificado'),
-    customerEmail: toStringValue(raw.customerEmail ?? raw.email, 'No disponible'),
-    customerPhone: toStringValue(raw.customerPhone ?? raw.phone, 'No disponible'),
-    customerAddress: toStringValue(raw.customerAddress ?? raw.address, 'No disponible')
+    projectName: toStringValue(raw['projectName'] ?? raw['name'], 'Proyecto sin nombre'),
+    projectType: toStringValue(raw['projectType'] ?? raw['type'], 'No especificado'),
+    projectSize: toStringValue(raw['projectSize'] ?? raw['size'], 'No especificado'),
+    customerEmail: toStringValue(raw['customerEmail'] ?? raw['email'], 'No disponible'),
+    customerPhone: toStringValue(raw['customerPhone'] ?? raw['phone'], 'No disponible'),
+    customerAddress: toStringValue(raw['customerAddress'] ?? raw['address'], 'No disponible')
   };
 }

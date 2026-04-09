@@ -32,6 +32,13 @@
     </div>
   </div>
 
+  <div class="alert alert-danger m-3 mb-0" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+  <div class="alert alert-info m-3 mb-0" *ngIf="isLoading">
+    Cargando pedidos pendientes...
+  </div>
+
   <!-- Tabla de pedidos -->
   <div class="table-responsive">
     <table class="table table-hover align-middle">

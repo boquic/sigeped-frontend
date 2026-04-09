@@ -1,26 +1,56 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-// Asegúrate de que tu componente sea Standalone si así lo creaste
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { normalizeApiError } from '../../core/utils/api-error.util';
 
 @Component({
   selector: 'app-login',
-  standalone: true, // Si tu proyecto es standalone
-  imports: [CommonModule], // Si tu proyecto es standalone
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  username = '';
+  password = '';
+  isSubmitting = false;
+  errorMessage = '';
 
-  // Inyecta el Router de Angular
-  constructor(private router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {}
 
-  /**
-   * Esta función se ejecuta cuando se presiona el botón "SIGUIENTE".
-   */
-  goToDashboard(event: Event) {
-    event.preventDefault(); // Previene que la página se recargue
-    console.log('Navegando al dashboard...');
-    this.router.navigate(['/dashboard']); // ¡Aquí ocurre la magia!
+  onSubmit(event: Event): void {
+    event.preventDefault();
+    this.errorMessage = '';
+
+    if (!this.username.trim() || !this.password.trim()) {
+      this.errorMessage = 'Ingresa usuario y contrasena para continuar.';
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.authService
+      .login({
+        username: this.username.trim(),
+        password: this.password
+      })
+      .subscribe({
+        next: () => {
+          this.isSubmitting = false;
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error: unknown) => {
+          this.isSubmitting = false;
+          const normalized = normalizeApiError(error);
+          this.errorMessage = normalized.message;
+          if (normalized.requestId) {
+            console.error(`[requestId:${normalized.requestId}] ${normalized.message}`);
+          }
+        }
+      });
   }
 }

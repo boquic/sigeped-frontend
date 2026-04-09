@@ -16,6 +16,13 @@
 
   <!-- VISTA DETALLE DEL PEDIDO (Diseño mejorado) -->
   <div *ngIf="activeTab === 'detalle' && selectedPedido" class="detalle-pedido-wrapper">
+    <div class="alert alert-success" *ngIf="actionMessage">
+      {{ actionMessage }}
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
     <!-- Fila superior: Título y Botones -->
     <div class="detalle-header">
       <div class="header-title">
@@ -23,8 +30,12 @@
         <span>Cliente: {{ selectedPedido.client }}</span>
       </div>
       <div class="header-actions">
-        <button class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i> Editar Orden</button>
-        <button class="btn btn-primary"><i class="bi bi-printer"></i> Imprimir</button>
+        <button class="btn btn-outline-secondary" (click)="reviewSelectedOrder()" [disabled]="isSubmittingAction">
+          <i class="bi bi-check2-circle"></i> Aprobar revision
+        </button>
+        <button class="btn btn-primary" (click)="updateSelectedOrderStatus()" [disabled]="isSubmittingAction">
+          <i class="bi bi-arrow-repeat"></i> Marcar completado
+        </button>
       </div>
     </div>
 

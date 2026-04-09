@@ -6,23 +6,39 @@
 
   <h2>Acceder</h2>
 
-  <form (submit)="goToDashboard($event)">
+  <form (submit)="onSubmit($event)">
     <div class="input-group">
       <i class="fas fa-user icon"></i>
-      <input type="text" placeholder="Usuario" readonly>
+      <input
+        type="text"
+        name="username"
+        placeholder="Usuario"
+        [(ngModel)]="username"
+        [disabled]="isSubmitting"
+      >
     </div>
 
     <div class="input-group">
       <i class="fas fa-lock icon"></i>
-      <input type="password" placeholder="Contraseña" readonly>
+      <input
+        type="password"
+        name="password"
+        placeholder="Contrasena"
+        [(ngModel)]="password"
+        [disabled]="isSubmitting"
+      >
     </div>
+
+    <p class="inline-error" *ngIf="errorMessage">{{ errorMessage }}</p>
 
     <div class="links">
       <a href="#">¿Olvidó su contraseña?</a>
       <a href="#">Iniciar sesión con otra cuenta</a>
     </div>
     
-    <button type="submit" class="submit-btn">SIGUIENTE</button>
+    <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'INGRESANDO...' : 'SIGUIENTE' }}
+    </button>
   </form>
 </div>
 
