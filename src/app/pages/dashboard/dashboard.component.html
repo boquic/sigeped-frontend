@@ -1,32 +1,80 @@
 <div class="dashboard-wrapper">
 
   <main class="main-content">
-    <h2>PEDIDOS RECIENTES</h2>
-    <div class="pedidos-grid">
-      <div class="pedido-card" *ngFor="let pedido of pedidosRecientes">
-        <img [src]="pedido.imageUrl" alt="Plano del pedido">
-        <div class="card-body">
-          <h5 class="card-title">PEDIDO {{ pedido.id }}</h5>
-          <p class="card-text">Client: {{ pedido.client }}</p>
-          <p class="card-text"><small>Due: {{ pedido.date }}</small></p>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background-color: var(--primary-color);">
+          <i class="bi bi-box-seam-fill"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ stats.total }}</span>
+          <span class="stat-label">Total Pedidos</span>
         </div>
       </div>
-    </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background-color: var(--bs-info);">
+          <i class="bi bi-hourglass-split"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ stats.enProgreso }}</span>
+          <span class="stat-label">En Progreso</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background-color: var(--bs-warning);">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ stats.pendientes }}</span>
+          <span class="stat-label">Pendientes</span>
+        </div>
+      </div>
+      </section>
+
+    <section class="pedidos-recientes card">
+      <div class="card-header-flex">
+        <h2>PEDIDOS RECIENTES</h2>
+        <a href="#" class="ver-todo" (click)="verTodosPedidos()">Ver Todos</a>
+      </div>
+      <div class="pedidos-grid">
+        <div class="pedido-card-compact" *ngFor="let pedido of pedidosRecientes" (click)="verDetallePedido(pedido.id)">
+          <img [src]="pedido.imageUrl" alt="Plano del pedido" onerror="this.src='https://placehold.co/100x80/eeeeee/cccccc?text=IMG'">
+          <div class="pedido-info">
+            <span class="pedido-id">{{ pedido.id }}</span>
+            <span class="pedido-client">{{ pedido.client }}</span>
+            <span class="pedido-date">{{ pedido.date }}</span>
+          </div>
+          <span class="badge" [ngClass]="pedido.status.replace(' ', '-').toLowerCase()">
+            {{ pedido.status }}
+          </span>
+        </div>
+        <div *ngIf="pedidosRecientes.length === 0" class="no-pedidos">
+           No hay pedidos recientes para mostrar.
+         </div>
+      </div>
+    </section>
   </main>
 
-  <aside class="notifications-sidebar">
-    <h3><i class="bi bi-chat-dots"></i> Chat Notifications</h3>
+  <aside class="notifications-sidebar card">
+    <div class="card-header-flex">
+      <h3><i class="bi bi-chat-dots"></i> Notificaciones</h3>
+    </div>
     <div class="notifications-list">
       <div class="notification-item" *ngFor="let notificacion of notificaciones">
         <div class="notification-icon">
           <i class="bi bi-chat-left-text"></i>
         </div>
         <div class="notification-body">
-          <p class="notification-title">New message from {{ notificacion.from }}</p>
+          <p class="notification-title">Nuevo mensaje de {{ notificacion.from }}</p>
           <p class="notification-message">"{{ notificacion.message }}"</p>
         </div>
         <span class="notification-time">{{ notificacion.time }}</span>
       </div>
+       <div *ngIf="notificaciones.length === 0" class="no-notificaciones">
+         No tienes notificaciones nuevas.
+       </div>
+      <a href="#" class="ver-todo">Ver todas</a>
     </div>
   </aside>
 
