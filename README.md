@@ -1,59 +1,127 @@
-# SigepedFrontend
+# SIGEPED Frontend (Angular 20, Standalone API)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+Guia para levantar el proyecto completo en local: backend + frontend.
 
-## Development server
+## 1. Requisitos
 
-To start a local development server, run:
+- Node.js 20+ (recomendado LTS)
+- npm 10+
+- Backend SIGEPED disponible en local
+- Base de datos del backend operativa
 
-```bash
-ng serve
+## 2. Configuracion local esperada
+
+### Backend
+
+- URL backend DEV: http://localhost:3000
+- URL backend PROD temporal local: http://localhost:3000
+- Prefijo API: /api
+- Auth habilitada: AUTH_ENABLED=true
+
+### Frontend
+
+- URL frontend DEV: http://localhost:4200
+- apiBaseUrl Angular: http://localhost:3000
+
+## 3. Variables de entorno del backend
+
+Crear un archivo .env en el backend con este contenido:
+
+```env
+NODE_ENV=development
+PORT=3000
+
+# Seguridad
+AUTH_ENABLED=true
+JWT_SECRET=dev_local_secret_cambiar_en_prod
+JWT_EXPIRES_IN=8h
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+
+# CORS / rate limit
+CORS_ORIGIN=http://localhost:4200
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX=300
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 4. Levantar backend (paso a paso)
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Desde la carpeta del backend:
 
 ```bash
-ng generate component component-name
+npm install
+npm run dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Si tu backend usa otro script, reemplaza npm run dev por el script de arranque correspondiente (por ejemplo npm start).
+
+Verificaciones rapidas del backend:
+
+- Docs OpenAPI UI: http://localhost:3000/api/docs
+- OpenAPI JSON: http://localhost:3000/api/openapi.json
+
+## 5. Levantar frontend (paso a paso)
+
+Desde esta carpeta (sigeped-frontend):
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
+Abrir en navegador:
 
-To build the project run:
+- http://localhost:4200
+
+## 6. Entornos Angular configurados
+
+Los entornos del frontend ya estan configurados para local:
+
+- src/environments/environment.ts -> apiBaseUrl: http://localhost:3000
+- src/environments/environment.prod.ts -> apiBaseUrl: http://localhost:3000 (temporal local)
+
+## 7. Flujo end-to-end recomendado
+
+1. Levantar backend en puerto 3000.
+2. Confirmar docs en /api/docs.
+3. Levantar frontend en puerto 4200.
+4. Hacer login con usuario admin y password admin123.
+5. Ir a Pedidos y validar carga de pendientes.
+6. Probar accion de revision en un pedido.
+7. Probar accion de actualizacion de estado.
+8. Borrar token de sessionStorage y verificar redireccion a login en rutas protegidas.
+
+## 8. Endpoints integrados actualmente
+
+- POST /api/auth/login
+- GET /api/orders/pending
+- POST /api/orders/:id/review
+- POST /api/orders/:id/update
+- GET /api/admin/orders
+
+## 9. Comandos utiles frontend
 
 ```bash
-ng build
+npm start
+npm run build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 10. Problemas comunes
 
-## Running unit tests
+### Error CORS
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Verificar en backend:
 
-```bash
-ng test
-```
+- CORS_ORIGIN=http://localhost:4200
 
-## Running end-to-end tests
+### 401 o 403 al navegar
 
-For end-to-end (e2e) testing, run:
+- Confirmar login exitoso.
+- Verificar que exista token en sessionStorage.
+- Confirmar AUTH_ENABLED=true en backend.
 
-```bash
-ng e2e
-```
+### Login falla con INVALID_CREDENTIALS
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Revisar ADMIN_USERNAME y ADMIN_PASSWORD del backend.
+- Probar de nuevo con las credenciales del .env.
