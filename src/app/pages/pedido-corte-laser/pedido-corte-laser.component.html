@@ -1,0 +1,135 @@
+<section class="laser-order-page">
+  <article class="laser-order-card">
+    <header class="card-header">
+      <p class="badge">Chatbot</p>
+      <h1>Pedido de Corte Laser</h1>
+      <p class="subtitle">Primero registras tus datos y luego completas el pedido.</p>
+    </header>
+
+    <section class="chat-thread" aria-label="Conversacion del chatbot">
+      <article *ngFor="let message of chatMessages" class="chat-message" [class.bot]="message.role === 'bot'" [class.user]="message.role === 'user'">
+        <span>{{ message.text }}</span>
+      </article>
+
+      <article class="chat-message bot" *ngIf="!contextErrorMessage && isTokenReady && !showRegistrationForm && !registrationCompleted">
+        <span>Para continuar, registra tus datos.</span>
+        <a href="#registro" class="chat-link" (click)="openRegistration($event)">{{ registrationLinkLabel }}</a>
+      </article>
+    </section>
+
+    <div class="status loading" *ngIf="isContextLoading">
+      Cargando datos del enlace...
+    </div>
+
+    <div class="status error" *ngIf="contextErrorMessage">
+      {{ contextErrorMessage }}
+    </div>
+
+    <section id="registro" class="registration-panel" *ngIf="!isContextLoading && !contextErrorMessage && !registrationCompleted">
+      <h2>Registro de usuario</h2>
+      <form [formGroup]="registrationForm" (submit)="submitRegistration($event)" novalidate>
+        <section class="field-grid registration-grid">
+          <div class="field readonly">
+            <label for="dni">DNI</label>
+            <input id="dni" type="text" formControlName="dni" readonly>
+            <small class="hint">Tomado desde el enlace del pedido.</small>
+          </div>
+
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" formControlName="nombre" [class.invalid]="registrationForm.controls.nombre.invalid && registrationForm.controls.nombre.touched">
+            <small class="error" *ngIf="registrationForm.controls.nombre.invalid && registrationForm.controls.nombre.touched">El nombre es obligatorio.</small>
+          </div>
+
+          <div class="field">
+            <label for="apellido">Apellido</label>
+            <input id="apellido" type="text" formControlName="apellido" [class.invalid]="registrationForm.controls.apellido.invalid && registrationForm.controls.apellido.touched">
+            <small class="error" *ngIf="registrationForm.controls.apellido.invalid && registrationForm.controls.apellido.touched">El apellido es obligatorio.</small>
+          </div>
+        </section>
+
+        <button class="submit-btn secondary" type="submit" [disabled]="isRegistering">
+          {{ isRegistering ? 'Registrando...' : 'Continuar al pedido' }}
+        </button>
+      </form>
+    </section>
+
+    <section class="status success" *ngIf="registrationCompleted">
+      Registro completado. Ahora completa el formulario del pedido.
+    </section>
+
+    <form *ngIf="orderFormReady" [formGroup]="form" (submit)="submit($event)" novalidate>
+      <section class="readonly-grid">
+        <div class="field readonly">
+          <label>Servicio</label>
+          <p>{{ serviceName || 'Corte Laser' }}</p>
+        </div>
+        <div class="field readonly">
+          <label>DNI</label>
+          <p>{{ customerDni }}</p>
+        </div>
+      </section>
+
+      <section class="field full-width">
+        <label>Cliente registrado</label>
+        <p class="registered-name">{{ customerFullName || form.controls.customerName.value }}</p>
+      </section>
+
+      <section class="field-grid">
+        <div class="field">
+          <label for="customerName">Nombre y apellido</label>
+          <input id="customerName" type="text" formControlName="customerName" [class.invalid]="form.controls.customerName.invalid && form.controls.customerName.touched">
+          <small class="error" *ngIf="form.controls.customerName.invalid && form.controls.customerName.touched">El nombre es obligatorio.</small>
+        </div>
+
+        <div class="field">
+          <label for="material">Material</label>
+          <input id="material" type="text" formControlName="material" [class.invalid]="form.controls.material.invalid && form.controls.material.touched">
+          <small class="error" *ngIf="form.controls.material.invalid && form.controls.material.touched">El material es obligatorio.</small>
+        </div>
+
+        <div class="field">
+          <label for="espesor">Espesor</label>
+          <input id="espesor" type="text" formControlName="espesor" [class.invalid]="form.controls.espesor.invalid && form.controls.espesor.touched">
+          <small class="error" *ngIf="form.controls.espesor.invalid && form.controls.espesor.touched">El espesor es obligatorio.</small>
+        </div>
+
+        <div class="field">
+          <label for="dimensiones">Dimensiones</label>
+          <input id="dimensiones" type="text" formControlName="dimensiones" [class.invalid]="form.controls.dimensiones.invalid && form.controls.dimensiones.touched">
+          <small class="error" *ngIf="form.controls.dimensiones.invalid && form.controls.dimensiones.touched">Las dimensiones son obligatorias.</small>
+        </div>
+
+        <div class="field">
+          <label for="cantidad">Cantidad</label>
+          <input id="cantidad" type="number" formControlName="cantidad" min="1" [class.invalid]="form.controls.cantidad.invalid && form.controls.cantidad.touched">
+          <small class="error" *ngIf="form.controls.cantidad.invalid && form.controls.cantidad.touched">Ingresa una cantidad valida (minimo 1).</small>
+        </div>
+      </section>
+
+      <section class="field full-width">
+        <label for="comentarios">Comentarios (opcional)</label>
+        <textarea id="comentarios" rows="3" formControlName="comentarios" placeholder="Ejemplo: tolerancias, acabado, fecha requerida"></textarea>
+      </section>
+
+      <section class="field full-width">
+        <label for="files">Archivos (DWG, DXF, PDF)</label>
+        <input id="files" type="file" multiple accept=".dwg,.dxf,.pdf" (change)="onFilesSelected($event)">
+        <small class="error" *ngIf="!selectedFiles.length && form.touched">Debes adjuntar al menos un archivo.</small>
+        <ul class="files-list" *ngIf="selectedFiles.length">
+          <li *ngFor="let file of selectedFiles; let i = index">
+            <span>{{ file.name }}</span>
+            <button type="button" (click)="removeFile(i)">Quitar</button>
+          </li>
+        </ul>
+      </section>
+
+      <div class="status error" *ngIf="submitErrorMessage">{{ submitErrorMessage }}</div>
+      <div class="status success" *ngIf="successMessage">{{ successMessage }}</div>
+
+      <button class="submit-btn" type="submit" [disabled]="!canSubmit">
+        {{ isSubmitting ? 'Enviando pedido...' : 'Enviar pedido' }}
+      </button>
+    </form>
+  </article>
+</section>

@@ -1,0 +1,273 @@
+:host {
+  display: block;
+}
+
+.laser-order-page {
+  min-height: 100vh;
+  padding: 24px;
+  background: radial-gradient(circle at 20% 20%, #f9f4ed 0%, #f3f8fb 42%, #eef3f8 100%);
+}
+
+.laser-order-card {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #d6e1eb;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(12, 24, 36, 0.12);
+  padding: 28px;
+}
+
+.card-header {
+  margin-bottom: 22px;
+}
+
+.chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.chat-message {
+  max-width: 78%;
+  padding: 12px 14px;
+  border-radius: 16px;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+.chat-message.bot {
+  align-self: flex-start;
+  background: #eef4ff;
+  color: #16355a;
+  border: 1px solid #d8e6ff;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background: #0f4c75;
+  color: #ffffff;
+}
+
+.chat-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 700;
+  color: #0f4c75;
+  text-decoration: underline;
+}
+
+.registration-panel {
+  margin: 18px 0;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid #d7e3ec;
+  background: #f8fbfe;
+}
+
+.registration-panel h2 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  color: #10263a;
+}
+
+.badge {
+  margin: 0;
+  display: inline-block;
+  background: #d8f3dc;
+  color: #1f6b45;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+}
+
+h1 {
+  margin: 10px 0 8px;
+  font-size: 1.8rem;
+  color: #10263a;
+}
+
+.subtitle {
+  margin: 0;
+  color: #4c6274;
+}
+
+.readonly-grid,
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.readonly-grid {
+  margin-bottom: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field.full-width {
+  margin-top: 14px;
+}
+
+.registration-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+label {
+  font-weight: 600;
+  color: #1a3247;
+}
+
+.readonly p {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: #f3f7fa;
+  border: 1px solid #d7e3ec;
+  color: #203546;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.hint {
+  color: #577187;
+  font-size: 0.78rem;
+}
+
+.registered-name {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: #f3f7fa;
+  border: 1px solid #d7e3ec;
+  color: #203546;
+}
+
+input,
+textarea {
+  font: inherit;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #b5c9d9;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #2b6a99;
+  box-shadow: 0 0 0 3px rgba(43, 106, 153, 0.12);
+  outline: none;
+}
+
+input.invalid {
+  border-color: #b3261e;
+}
+
+.error {
+  color: #b3261e;
+  font-size: 0.82rem;
+}
+
+.files-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.files-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #f8fbfd;
+  border: 1px solid #d9e7f2;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.files-list button {
+  border: none;
+  background: #fee2e2;
+  color: #8a1919;
+  border-radius: 8px;
+  padding: 5px 9px;
+  cursor: pointer;
+}
+
+.status {
+  margin-top: 14px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 500;
+}
+
+.status.loading {
+  background: #eaf4ff;
+  color: #1f4a72;
+}
+
+.status.error {
+  background: #fde8e7;
+  color: #8a1919;
+}
+
+.status.success {
+  background: #dcfce7;
+  color: #196741;
+}
+
+.submit-btn {
+  margin-top: 18px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(120deg, #0f4c75, #1f7a8c);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit-btn.secondary {
+  background: linear-gradient(120deg, #1f7a8c, #2c9ab7);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .laser-order-page {
+    padding: 14px;
+  }
+
+  .laser-order-card {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .readonly-grid,
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .registration-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-message {
+    max-width: 100%;
+  }
+}

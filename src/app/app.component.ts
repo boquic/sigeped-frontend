@@ -20,12 +20,13 @@ import { HeaderComponent } from './shared/header/header.component'; // <-- 1. IM
 export class AppComponent {
   showSidebar = true;
   isSidebarCollapsed = false;
+  private readonly publicRoutePrefixes = ['/login', '/logout', '/salir', '/pedido/corte-laser'];
 
   constructor(private router: Router) {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.showSidebar = !event.urlAfterRedirects.includes('/login');
+      this.showSidebar = !this.publicRoutePrefixes.some((prefix) => event.urlAfterRedirects.startsWith(prefix));
     });
   }
 

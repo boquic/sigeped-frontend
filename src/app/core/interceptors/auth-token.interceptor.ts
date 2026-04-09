@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-const PUBLIC_ENDPOINTS = ['/api/auth/login', '/api/openapi.json'];
+const PUBLIC_ENDPOINTS = ['/api/auth/login', '/api/openapi.json', '/api/web/form-context', '/api/upload-files'];
 
 function isPublicRequest(url: string): boolean {
   return PUBLIC_ENDPOINTS.some((publicPath) => url.includes(publicPath));
