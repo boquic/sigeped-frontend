@@ -20,7 +20,7 @@ import { HeaderComponent } from './shared/header/header.component'; // <-- 1. IM
 export class AppComponent {
   showSidebar = true;
   isSidebarCollapsed = false;
-  private readonly publicRoutePrefixes = ['/login', '/logout', '/salir', '/pedido/corte-laser'];
+  private readonly publicRoutePrefixes = ['/login', '/logout', '/salir', '/pedido/acceso', '/pedido/corte-laser'];
 
   constructor(private router: Router) {
     this.router.events.pipe(

@@ -1,0 +1,160 @@
+:host {
+  display: block;
+}
+
+.public-access-page {
+  min-height: 100vh;
+  padding: 18px;
+  background: radial-gradient(circle at 18% 10%, #f9f4ed 0%, #f3f8fb 38%, #eef3f8 100%);
+}
+
+.access-card {
+  width: min(680px, 100%);
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #d6e1eb;
+  border-radius: 16px;
+  box-shadow: 0 20px 36px rgba(12, 24, 36, 0.12);
+  padding: 22px;
+}
+
+.badge {
+  margin: 0;
+  display: inline-block;
+  background: #d8f3dc;
+  color: #1f6b45;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+h1 {
+  margin: 10px 0 8px;
+  color: #10263a;
+  font-size: 1.7rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: #4c6274;
+}
+
+.status {
+  margin-top: 14px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 500;
+}
+
+.status.loading {
+  background: #eaf4ff;
+  color: #1f4a72;
+}
+
+.status.error {
+  background: #fde8e7;
+  color: #8a1919;
+}
+
+.context-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  color: #1a3247;
+}
+
+.readonly p {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3f7fa;
+  border: 1px solid #d7e3ec;
+  color: #203546;
+}
+
+.chat-message {
+  margin-top: 12px;
+  margin-bottom: 14px;
+  max-width: 95%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  line-height: 1.45;
+}
+
+.chat-message.bot {
+  background: #eef4ff;
+  color: #16355a;
+  border: 1px solid #d8e6ff;
+}
+
+input {
+  font: inherit;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #b5c9d9;
+}
+
+input:focus {
+  border-color: #2b6a99;
+  box-shadow: 0 0 0 3px rgba(43, 106, 153, 0.12);
+  outline: none;
+}
+
+input.invalid {
+  border-color: #b3261e;
+}
+
+.error {
+  color: #b3261e;
+  font-size: 0.82rem;
+}
+
+.action-btn {
+  margin-top: 16px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(120deg, #0f4c75, #1f7a8c);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .public-access-page {
+    padding: 12px;
+  }
+
+  .access-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .context-grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.45rem;
+  }
+}

@@ -1,16 +1,15 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LaserOrderService } from '../../core/services/laser-order.service';
 import { normalizeApiError } from '../../core/utils/api-error.util';
-import { ApiErrorView } from '../../core/models/api-error.model';
+import { getTokenLinkErrorMessage } from '../../core/utils/token-link-error.util';
+import { PublicFlowService } from '../../core/services/public-flow.service';
 
-interface ChatMessage {
-  role: 'bot' | 'user';
-  text: string;
+interface SelectedUploadFile {
+  name: string;
+  file: File;
 }
 
 type LaserOrderForm = FormGroup<{
@@ -22,12 +21,6 @@ type LaserOrderForm = FormGroup<{
   comentarios: FormControl<string>;
 }>;
 
-type RegistrationForm = FormGroup<{
-  dni: FormControl<string>;
-  nombre: FormControl<string>;
-  apellido: FormControl<string>;
-}>;
-
 @Component({
   selector: 'app-pedido-corte-laser',
   standalone: true,
@@ -37,36 +30,25 @@ type RegistrationForm = FormGroup<{
 })
 export class PedidoCorteLaserComponent {
   private readonly route = inject(ActivatedRoute);
-  private readonly laserOrderService = inject(LaserOrderService);
+  private readonly publicFlowService = inject(PublicFlowService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly allowedExtensions = ['dwg', 'dxf', 'pdf'];
 
   token = '';
   serviceName = '';
   customerDni = '';
-  customerFullName = '';
-  showRegistrationForm = false;
-  registrationCompleted = false;
-  chatMessages: ChatMessage[] = [];
 
   isContextLoading = false;
   isSubmitting = false;
-  isRegistering = false;
 
   contextErrorMessage = '';
   submitErrorMessage = '';
   successMessage = '';
 
-  selectedFiles: File[] = [];
-
-  readonly registrationForm: RegistrationForm = new FormGroup({
-    dni: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    nombre: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    apellido: new FormControl('', { nonNullable: true, validators: [Validators.required] })
-  });
+  selectedFiles: SelectedUploadFile[] = [];
 
   readonly form: LaserOrderForm = new FormGroup({
-    customerName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    customerName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(2)] }),
     material: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     espesor: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     dimensiones: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -83,54 +65,6 @@ export class PedidoCorteLaserComponent {
 
   get canSubmit(): boolean {
     return !this.isContextLoading && !this.isSubmitting && !this.contextErrorMessage && this.form.valid && this.selectedFiles.length > 0;
-  }
-
-  get isTokenReady(): boolean {
-    return this.token.length > 0;
-  }
-
-  get registrationLinkLabel(): string {
-    return 'Ir al registro';
-  }
-
-  get orderFormReady(): boolean {
-    return this.registrationCompleted && !this.contextErrorMessage;
-  }
-
-  openRegistration(event: Event): void {
-    event.preventDefault();
-    this.showRegistrationForm = true;
-    this.chatMessages = [
-      ...this.chatMessages,
-      { role: 'user', text: 'Quiero registrarme.' },
-      { role: 'bot', text: 'Completa tus datos para continuar con el pedido.' }
-    ];
-  }
-
-  submitRegistration(event: Event): void {
-    event.preventDefault();
-    this.submitErrorMessage = '';
-
-    if (!this.registrationForm.valid) {
-      this.registrationForm.markAllAsTouched();
-      return;
-    }
-
-    const registrationValue = this.registrationForm.getRawValue();
-    this.isRegistering = true;
-
-    const fullName = `${registrationValue.nombre.trim()} ${registrationValue.apellido.trim()}`.trim();
-    this.customerDni = registrationValue.dni.trim();
-    this.customerFullName = fullName;
-    this.form.patchValue({ customerName: fullName });
-    this.registrationCompleted = true;
-    this.showRegistrationForm = false;
-    this.isRegistering = false;
-    this.chatMessages = [
-      ...this.chatMessages,
-      { role: 'user', text: `Mi DNI es ${this.customerDni} y mi nombre es ${fullName}.` },
-      { role: 'bot', text: 'Registro listo. Ahora completa tu pedido.' }
-    ];
   }
 
   onFilesSelected(event: Event): void {
@@ -154,7 +88,7 @@ export class PedidoCorteLaserComponent {
       return;
     }
 
-    this.selectedFiles = files;
+    this.selectedFiles = files.map((file) => ({ name: file.name, file }));
   }
 
   removeFile(fileIndex: number): void {
@@ -172,8 +106,8 @@ export class PedidoCorteLaserComponent {
     this.submitErrorMessage = '';
     this.successMessage = '';
 
-    if (!this.isTokenReady) {
-      this.contextErrorMessage = 'No se encontro un token valido en el enlace.';
+    if (!this.token) {
+      this.contextErrorMessage = 'Token faltante. Verifica el enlace enviado por WhatsApp.';
       return;
     }
 
@@ -186,21 +120,27 @@ export class PedidoCorteLaserComponent {
     }
 
     const formValue = this.form.getRawValue();
+    const formData = new FormData();
+    formData.append('token', this.token);
+    formData.append('customerName', formValue.customerName.trim());
+    formData.append(
+      'specifications',
+      JSON.stringify({
+        material: formValue.material.trim(),
+        espesor: formValue.espesor.trim(),
+        dimensiones: formValue.dimensiones.trim(),
+        cantidad: formValue.cantidad ?? 1,
+        comentarios: formValue.comentarios.trim()
+      })
+    );
+
+    this.selectedFiles.forEach((selectedFile) => {
+      formData.append('files', selectedFile.file, selectedFile.name);
+    });
 
     this.isSubmitting = true;
-    this.laserOrderService
-      .submitOrder({
-        token: this.token,
-        customerName: formValue.customerName.trim(),
-        specifications: {
-          material: formValue.material.trim(),
-          espesor: formValue.espesor.trim(),
-          dimensiones: formValue.dimensiones.trim(),
-          cantidad: formValue.cantidad ?? 1,
-          comentarios: formValue.comentarios.trim()
-        },
-        files: this.selectedFiles
-      })
+    this.publicFlowService
+      .uploadFiles(formData)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
@@ -229,16 +169,10 @@ export class PedidoCorteLaserComponent {
     this.contextErrorMessage = '';
     this.submitErrorMessage = '';
     this.successMessage = '';
-    this.customerFullName = '';
-    this.registrationCompleted = false;
-    this.showRegistrationForm = false;
-    this.chatMessages = [];
     this.selectedFiles = [];
-    this.registrationForm.reset({
-      dni: '',
-      nombre: '',
-      apellido: ''
-    });
+    this.serviceName = '';
+    this.customerDni = '';
+
     this.form.reset({
       customerName: '',
       material: '',
@@ -259,7 +193,7 @@ export class PedidoCorteLaserComponent {
   private loadContext(token: string): void {
     this.isContextLoading = true;
 
-    this.laserOrderService
+    this.publicFlowService
       .getFormContext(token)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -267,66 +201,35 @@ export class PedidoCorteLaserComponent {
           this.isContextLoading = false;
           this.serviceName = context.serviceName;
           this.customerDni = context.customerDni;
-          this.registrationForm.patchValue({ dni: context.customerDni });
-          this.chatMessages = [
-            {
-              role: 'bot',
-              text: `Hola. Soy el asistente de ${context.serviceName}. Registra tus datos para continuar con tu pedido.`
-            }
-          ];
           if (context.customerName?.trim()) {
-            this.customerFullName = context.customerName.trim();
-            this.registrationForm.patchValue({ nombre: context.customerName.trim() });
             this.form.patchValue({ customerName: context.customerName.trim() });
           }
         },
         error: (error: unknown) => {
           this.isContextLoading = false;
-          const normalized = normalizeApiError(error);
-          this.contextErrorMessage = this.resolveContextErrorMessage(error, normalized);
-          this.chatMessages = [
-            {
-              role: 'bot',
-              text: 'No pude validar tu enlace. Solicita uno nuevo por WhatsApp para continuar.'
-            }
-          ];
-          if (normalized.requestId) {
-            console.error(`[requestId:${normalized.requestId}] ${normalized.message}`);
-          }
+          this.contextErrorMessage = this.resolveErrorMessage(error);
         }
       });
   }
 
   private handleSubmitError(error: unknown): void {
-    const normalized = normalizeApiError(error);
-
-    if (this.isTokenInvalidOrExpired(error, normalized)) {
-      this.contextErrorMessage = 'El enlace del pedido es invalido o ya expiro. Solicita uno nuevo por WhatsApp.';
+    const tokenError = getTokenLinkErrorMessage(error);
+    if (tokenError) {
+      this.contextErrorMessage = tokenError;
       this.submitErrorMessage = '';
-    } else {
-      this.submitErrorMessage = normalized.message;
+      return;
     }
 
-    if (normalized.requestId) {
-      console.error(`[requestId:${normalized.requestId}] ${normalized.message}`);
-    }
+    this.submitErrorMessage = normalizeApiError(error).message;
   }
 
-  private resolveContextErrorMessage(error: unknown, normalized: ApiErrorView): string {
-    if (this.isTokenInvalidOrExpired(error, normalized)) {
-      return 'El enlace del pedido es invalido o ya expiro. Solicita uno nuevo por WhatsApp.';
+  private resolveErrorMessage(error: unknown): string {
+    const tokenError = getTokenLinkErrorMessage(error);
+    if (tokenError) {
+      return tokenError;
     }
 
-    return normalized.message;
-  }
-
-  private isTokenInvalidOrExpired(error: unknown, normalized: ApiErrorView): boolean {
-    if (error instanceof HttpErrorResponse && [400, 401, 403, 404, 410].includes(error.status)) {
-      return true;
-    }
-
-    const message = normalized.message.toLowerCase();
-    return message.includes('token') && (message.includes('inval') || message.includes('expir'));
+    return normalizeApiError(error).message;
   }
 
   private hasAllowedExtension(fileName: string): boolean {

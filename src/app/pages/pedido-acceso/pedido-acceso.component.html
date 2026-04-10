@@ -1,0 +1,56 @@
+<section class="public-access-page">
+  <article class="access-card">
+    <header class="card-header">
+      <p class="badge">Chatbot</p>
+      <h1>Bienvenido a SIGEPED</h1>
+      <p class="subtitle">Validamos tu enlace y te guiamos para crear tu pedido.</p>
+    </header>
+
+    <section class="status loading" *ngIf="isLoadingContext">
+      Cargando tu acceso...
+    </section>
+
+    <section class="status error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </section>
+
+    <section class="context-grid" *ngIf="!isLoadingContext && !errorMessage">
+      <div class="field readonly">
+        <label>DNI</label>
+        <p>{{ customerDni }}</p>
+      </div>
+      <div class="field readonly">
+        <label>Estado</label>
+        <p>{{ isRegistered ? 'Cliente recurrente' : 'Primer registro' }}</p>
+      </div>
+    </section>
+
+    <form *ngIf="showRegister" [formGroup]="registrationForm" (submit)="submitRegister($event)" novalidate>
+      <section class="chat-message bot">
+        Hola. Soy tu asistente. Antes de continuar, registrate con tu nombre completo.
+      </section>
+
+      <div class="field">
+        <label for="name">Nombre y apellido</label>
+        <input id="name" type="text" formControlName="name" [class.invalid]="registrationForm.controls.name.invalid && registrationForm.controls.name.touched">
+        <small class="error" *ngIf="registrationForm.controls.name.invalid && registrationForm.controls.name.touched">
+          Ingresa al menos 2 caracteres.
+        </small>
+      </div>
+
+      <button type="submit" class="action-btn" [disabled]="isSubmittingRegister">
+        {{ isSubmittingRegister ? 'Registrando...' : 'Continuar al formulario' }}
+      </button>
+    </form>
+
+    <form *ngIf="showAuthenticate" (submit)="submitAuthenticate($event)">
+      <section class="chat-message bot">
+        Hola {{ customerName || 'cliente' }}, reconocimos tu cuenta. Confirma para continuar al formulario.
+      </section>
+
+      <button type="submit" class="action-btn" [disabled]="isSubmittingAuth">
+        {{ isSubmittingAuth ? 'Autenticando...' : 'Continuar al formulario' }}
+      </button>
+    </form>
+  </article>
+</section>

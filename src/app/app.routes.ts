@@ -7,12 +7,14 @@ import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { authGuard } from './core/guards/auth.guard';
 import { PedidoCorteLaserComponent } from './pages/pedido-corte-laser/pedido-corte-laser.component';
+import { PedidoAccesoComponent } from './pages/pedido-acceso/pedido-acceso.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'salir', component: LogoutComponent },
+  { path: 'pedido/acceso', component: PedidoAccesoComponent },
   { path: 'pedido/corte-laser', component: PedidoCorteLaserComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'pedidos', component: PedidosComponent, canActivate: [authGuard] },

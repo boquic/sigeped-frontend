@@ -4,7 +4,14 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-const BYPASS_AUTH_ERROR_ENDPOINTS = ['/api/auth/login', '/api/web/form-context', '/api/upload-files'];
+const BYPASS_AUTH_ERROR_ENDPOINTS = [
+  '/api/auth/login',
+  '/api/web/customer-context',
+  '/api/web/customer-register',
+  '/api/web/customer-authenticate',
+  '/api/web/form-context',
+  '/api/upload-files'
+];
 
 function shouldBypassAuthErrorHandling(url: string): boolean {
   return BYPASS_AUTH_ERROR_ENDPOINTS.some((path) => url.includes(path));

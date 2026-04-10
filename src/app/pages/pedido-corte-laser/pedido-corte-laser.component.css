@@ -22,56 +22,6 @@
   margin-bottom: 22px;
 }
 
-.chat-thread {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.chat-message {
-  max-width: 78%;
-  padding: 12px 14px;
-  border-radius: 16px;
-  line-height: 1.45;
-  font-size: 0.95rem;
-}
-
-.chat-message.bot {
-  align-self: flex-start;
-  background: #eef4ff;
-  color: #16355a;
-  border: 1px solid #d8e6ff;
-}
-
-.chat-message.user {
-  align-self: flex-end;
-  background: #0f4c75;
-  color: #ffffff;
-}
-
-.chat-link {
-  display: inline-block;
-  margin-top: 8px;
-  font-weight: 700;
-  color: #0f4c75;
-  text-decoration: underline;
-}
-
-.registration-panel {
-  margin: 18px 0;
-  padding: 18px;
-  border-radius: 16px;
-  border: 1px solid #d7e3ec;
-  background: #f8fbfe;
-}
-
-.registration-panel h2 {
-  margin: 0 0 14px;
-  font-size: 1.1rem;
-  color: #10263a;
-}
-
 .badge {
   margin: 0;
   display: inline-block;
@@ -116,10 +66,6 @@ h1 {
   margin-top: 14px;
 }
 
-.registration-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 label {
   font-weight: 600;
   color: #1a3247;
@@ -134,20 +80,6 @@ label {
   color: #203546;
   min-height: 44px;
   box-sizing: border-box;
-}
-
-.hint {
-  color: #577187;
-  font-size: 0.78rem;
-}
-
-.registered-name {
-  margin: 0;
-  padding: 11px 12px;
-  border-radius: 10px;
-  background: #f3f7fa;
-  border: 1px solid #d7e3ec;
-  color: #203546;
 }
 
 input,
@@ -239,10 +171,6 @@ input.invalid {
   cursor: pointer;
 }
 
-.submit-btn.secondary {
-  background: linear-gradient(120deg, #1f7a8c, #2c9ab7);
-}
-
 .submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -261,13 +189,5 @@ input.invalid {
   .readonly-grid,
   .field-grid {
     grid-template-columns: 1fr;
-  }
-
-  .registration-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .chat-message {
-    max-width: 100%;
   }
 }
